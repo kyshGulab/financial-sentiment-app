@@ -5,7 +5,10 @@ model = joblib.load('model.joblib')
 
 def predict_text(model, text):
     prediction = model.predict([text])
-    return prediction
+    prediction_proba = model.predict_proba([text])
+    class_labels = model.classes_
+    proba_scores = {class_labels[i]: prediction_proba[0][i] for i in range(len(class_labels))}
+    return prediction[0], proba_scores
 
 
 st.title('Text Classification App')
